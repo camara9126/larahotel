@@ -26,7 +26,7 @@
     <link href="{{asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}"rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="c{{asset('ss/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
@@ -81,16 +81,16 @@
                         </button>
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto py-0">
-                                <a href="" class="nav-item nav-link">Home</a>
-                                <a href="" class="nav-item nav-link active">About</a>
-                                <a href="" class="nav-item nav-link">Services</a>
-                                <a href="" class="nav-item nav-link">Rooms</a>
+                                <a href="/" class="nav-item nav-link ">Home</a>
+                                <a href="about" class="nav-item nav-link active">About</a>
+                                <a href="services" class="nav-item nav-link">Services</a>
+                                <a href="rooms" class="nav-item nav-link">Rooms</a>
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                     <div class="dropdown-menu rounded-0 m-0">
-                                        <a href="" class="dropdown-item">Booking</a>
-                                        <a href="" class="dropdown-item">Our Team</a>
-                                        <a href="" class="dropdown-item">Testimonial</a>
+                                        <a href="booking" class="dropdown-item">Booking</a>
+                                        <a href="team" class="dropdown-item">Our Team</a>
+                                        <a href="testimonial" class="dropdown-item">Testimonial</a>
                                     </div>
                                 </div>
                                 <a href="" class="nav-item nav-link">Contact</a>

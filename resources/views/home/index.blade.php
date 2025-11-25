@@ -81,16 +81,16 @@
                         </button>
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto py-0">
-                                <a href="" class="nav-item nav-link active">Home</a>
-                                <a href="" class="nav-item nav-link">About</a>
-                                <a href="" class="nav-item nav-link">Services</a>
-                                <a href="" class="nav-item nav-link">Rooms</a>
+                                <a href="/" class="nav-item nav-link active">Home</a>
+                                <a href="about" class="nav-item nav-link">About</a>
+                                <a href="services" class="nav-item nav-link">Services</a>
+                                <a href="rooms" class="nav-item nav-link">Rooms</a>
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                     <div class="dropdown-menu rounded-0 m-0">
-                                        <a href="" class="dropdown-item">Booking</a>
-                                        <a href="" class="dropdown-item">Our Team</a>
-                                        <a href="" class="dropdown-item">Testimonial</a>
+                                        <a href="booking" class="dropdown-item">Booking</a>
+                                        <a href="team" class="dropdown-item">Our Team</a>
+                                        <a href="testimonial" class="dropdown-item">Testimonial</a>
                                     </div>
                                 </div>
                                 <a href="" class="nav-item nav-link">Contact</a>
@@ -229,7 +229,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="">Explore More</a>
+                        <a class="btn btn-primary py-3 px-5 mt-2" href="rooms">Explore More</a>
                     </div>
                     <div class="col-lg-6">
                         <div class="row g-3">
