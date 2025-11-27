@@ -95,7 +95,11 @@
                                 </div>
                                 <a href="" class="nav-item nav-link">Contact</a>
                             </div>
-                            <a href="https://htmlcodex.com/downloading/?item=2085" class="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block">Premium Version<i class="fa fa-arrow-right ms-3"></i></a>
+                            @auth
+                                <a href="{{route('dashboard')}}" class="btn btn-success py-1 px-2">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                            @endauth
                         </div>
                     </nav>
                 </div>

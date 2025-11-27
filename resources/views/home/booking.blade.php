@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
@@ -95,7 +95,7 @@
                                 </div>
                                 <a href="" class="nav-item nav-link">Contact</a>
                             </div>
-                            <a href="https://htmlcodex.com/downloading/?item=2085" class="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block">Premium Version<i class="fa fa-arrow-right ms-3"></i></a>
+                            
                         </div>
                     </nav>
                 </div>
@@ -192,71 +192,86 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
+                        @if(Session::has('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ Session::get('success') }}
+                            </div>
+                        @elseif(Session::has('danger'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ Session::get('danger') }}
+                            </div>
+                        @endif
                         <div class="wow fadeInUp" data-wow-delay="0.2s">
-                            <form>
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <form method="post" action="{{route('reservations.store')}}">
+                                @csrf
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" placeholder="Your Name">
-                                            <label for="name">Your Name</label>
+                                            <input type="text" class="form-control" name="name" placeholder="Votre nom complet">
+                                            <label for="name">Nom Complet</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" placeholder="Your Email">
-                                            <label for="email">Your Email</label>
+                                            <input type="email" class="form-control" name="email" placeholder="Votre Email"/>
+                                            <label for="email">Email</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-floating date" id="date3" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" id="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
-                                            <label for="checkin">Check In</label>
+                                        <div class="form-floating date">
+                                            <input type="date" class="form-control" name="date_arrivee" placeholder="Date d'arrivee"/>
+                                            <label for="date">Date D'arrivee</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating date" id="date4" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" id="checkout" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" />
-                                            <label for="checkout">Check Out</label>
+                                            <input type="date" class="form-control" name="date_depart"  placeholder="Date de depart"/>
+                                            <label for="date">Date de depart</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <select class="form-select" id="select1">
+                                            <select class="form-select" name="nombre_personnes" id="select1">
                                               <option value="1">Adult 1</option>
                                               <option value="2">Adult 2</option>
                                               <option value="3">Adult 3</option>
                                             </select>
-                                            <label for="select1">Select Adult</label>
+                                            <label for="select1">Selectionner un nombre</label>
                                           </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <select class="form-select" id="select2">
-                                              <option value="1">Child 1</option>
-                                              <option value="2">Child 2</option>
-                                              <option value="3">Child 3</option>
-                                            </select>
-                                            <label for="select2">Select Child</label>
-                                          </div>
+                                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Votre numero de telephone">
+                                            <label for="phone">Telephone</label>
+                                        </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
                                             <select class="form-select" id="select3">
-                                              <option value="1">Room 1</option>
-                                              <option value="2">Room 2</option>
-                                              <option value="3">Room 3</option>
+                                                @foreach($type_chambres as $type)
+                                              <option value="{{$type->nom}}">{{$type->nom}}</option>
+                                                @endforeach
                                             </select>
-                                            <label for="select3">Select A Room</label>
+                                            <label for="select3">Selectionner un categorie de chambres</label>
                                           </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Special Request" id="message" style="height: 100px"></textarea>
-                                            <label for="message">Special Request</label>
+                                            <textarea class="form-control" name="note" placeholder="Demande Speciale" id="message" style="height: 100px"></textarea>
+                                            <label for="message">Demande Speciale</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+                                        <button class="btn btn-primary w-100 py-3" type="submit">Reservez Maintenant</button>
                                     </div>
                                 </div>
                             </form>

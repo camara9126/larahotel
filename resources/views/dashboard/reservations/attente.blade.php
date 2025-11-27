@@ -51,27 +51,6 @@
                     </a>
                 </div>
                 <div class="col-lg-9">
-                    <!--<div class="row gx-0 bg-white d-none d-lg-flex">
-                        <div class="col-lg-7 px-5 text-start">
-                            <div class="h-100 d-inline-flex align-items-center py-2 me-4">
-                                <i class="fa fa-envelope text-primary me-2"></i>
-                                <p class="mb-0">info@example.com</p>
-                            </div>
-                            <div class="h-100 d-inline-flex align-items-center py-2">
-                                <i class="fa fa-phone-alt text-primary me-2"></i>
-                                <p class="mb-0">+012 345 6789</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 px-5 text-end">
-                            <div class="d-inline-flex align-items-center py-2">
-                                <a class="me-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-instagram"></i></a>
-                                <a class="" href=""><i class="fab fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>-->
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
                         <a href="/" class="navbar-brand d-block d-lg-none">
                             <h1 class="m-0 text-primary text-uppercase">Hotelier</h1>
@@ -81,8 +60,8 @@
                         </button>
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto py-0">
-                                <a href="dashboard" class="nav-item nav-link active">Home</a>
-                                <a href="{{route('chambres.index')}}" class="nav-item nav-link">Chambres</a>
+                                <a href="../dashboard" class="nav-item nav-link ">Home</a>
+                                <a href="{{route('chambres.index')}}" class="nav-item nav-link active">Chambres</a>
                                 <a href="{{route('reservations.index')}}" class="nav-item nav-link">Reservations</a>
                                 <a href="rooms" class="nav-item nav-link">Rooms</a>
                                 <div class="nav-item dropdown">
@@ -103,33 +82,76 @@
         </div>
         <!-- Header End -->
 
-        <p>
-            Bienvenue {{auth()->user()->name}}
-        </p>
-        <div class="row g-2 g-sm-3 g-xl-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa fa-bed text-primary mb-4"></i>
-                        <h5>Chambres</h5>
-                        <p>{{$chambres->count()}}</p>
-                    </div>
+        <div class="container-fluid pt-5">
+            <div class="row mb-5">
+                <div class="col-md-8">
+                    <h3>Reservations en attente</h3>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="../dashboard" class="btn btn-outline-danger">Retour</a>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa fa-table text-primary mb-4"></i>
-                        <h5>Reservations</h5>
-                        <p>{{$reservations->count()}}</p>
-                    </div>
+
+            @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('success') }}
                 </div>
+            @elseif(Session::has('danger'))
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('danger') }}
+                </div>
+            @endif
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Telephone</th>
+                            <th>N* Personne</th>
+                            <th>Date sejour</th>
+                            <th>Date depart</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($reservations as $reserv)
+                        <tr>
+                            <td>{{ $reserv->name }}</td>
+                            <td>{{ $reserv->email }}</td>
+                            <td>{{ $reserv->phone }}</td>
+                            <td>{{ $reserv->nombre_personnes }}</td>
+                            <td>{{ date("d/m/Y", strtotime($reserv->date_arrivee)) }}</td>
+                            <td>{{ date("d/m/Y", strtotime($reserv->date_depart)) }}</td>
+                            <td><div class="row">
+                                @if($reserv->statut == 'en attente')
+                                <div class="col-md-6">
+                                    <form action="{{ route('reservations.valider', $reserv->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-success">Valider</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <form action="{{ route('reservations.refuser', $reserv->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-danger">Rejeter</button>
+                                    </form>
+                                </div>
+                                @endif
+                            </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
 
-    </div>
 
-        <!-- JavaScript Libraries -->
+    </div>
+    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('lib/wow/wow.min.js')}}"></script>

@@ -1,9 +1,9 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="utf-8">
-    <title>Hotelier - dASHBOARD</title>
+    <title>Hotelier - Hotel HTML Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -46,14 +46,13 @@
         <div class="container-fluid bg-dark px-0">
             <div class="row gx-0">
                 <div class="col-lg-3 bg-dark d-none d-lg-block">
-                    <a href="" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                    <a href="/" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                         <h1 class="m-0 text-primary text-uppercase">Hotelier</h1>
                     </a>
                 </div>
                 <div class="col-lg-9">
-                    
-                    <!--<nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
-                        <a href="" class="navbar-brand d-block d-lg-none">
+                    <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
+                        <a href="/" class="navbar-brand d-block d-lg-none">
                             <h1 class="m-0 text-primary text-uppercase">Hotelier</h1>
                         </a>
                         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -61,73 +60,89 @@
                         </button>
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto py-0">
-                                <a href="/" class="nav-item nav-link active">Home</a>
-                                <a href="about" class="nav-item nav-link">About</a>
-                                <a href="services" class="nav-item nav-link">Services</a>
+                                <a href="../dashboard" class="nav-item nav-link ">Home</a>
+                                <a href="{{route('chambres.index')}}" class="nav-item nav-link active">Chambres</a>
+                                <a href="{{route('reservations.index')}}" class="nav-item nav-link">Reservations</a>
                                 <a href="rooms" class="nav-item nav-link">Rooms</a>
                                 <div class="nav-item dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Reservations</a>
                                     <div class="dropdown-menu rounded-0 m-0">
-                                        <a href="booking" class="dropdown-item">Booking</a>
-                                        <a href="team" class="dropdown-item">Our Team</a>
-                                        <a href="testimonial" class="dropdown-item">Testimonial</a>
+                                        <a href="{{route('reservations.attente')}}" class="dropdown-item">En attente</a>
+                                        <a href="{{route('reservations.validee')}}" class="dropdown-item">Validee</a>
+                                        <a href="{{route('reservations.refusee')}}" class="dropdown-item">Refusee</a>
                                     </div>
                                 </div>
                                 <a href="" class="nav-item nav-link">Contact</a>
                             </div>
-                            <a href="https://htmlcodex.com/downloading/?item=2085" class="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block">Premium Version<i class="fa fa-arrow-right ms-3"></i></a>
+                            <a href="{{route('logout')}}" class="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block">Deconnexion<i class="fa fa-arrow-right ms-3"></i></a>
                         </div>
-                    </nav>-->
+                    </nav>
                 </div>
             </div>
         </div>
+        <!-- Header End -->
 
-        <div class="container-fluid p-0 mt-5 mb-5">
-            <div class="row mt-4">
-                <div class="col-md-10">
-                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                        {{ __("Formulaire de Creation de Compte") }}
-                    </h2>
+        <div class="container-fluid pt-5">
+            <div class="row mb-5">
+                <div class="col-md-8">
+                    <h3>Reservations Validees</h3>
                 </div>
-                <div class="col-md-2">
-                    <a href="/" class="btn btn-danger">Retour</a>
+                <div class="col-md-4 text-end">
+                    <a href="../dashboard" class="btn btn-outline-success">Retour</a>
                 </div>
             </div>
 
-            @if ($errors->any())
-            <div style="color: red; margin-bottom: 10px;">
-                @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-            @endif  
-            <!-- Formulaire -->
-            <div class="container mt-4">
-                <form action="{{ route('register.store') }}" method="post">
-                @csrf 
-                    <div class="form-group">
-                        <label for="exampleInputName">Nom Complet</label>
-                        <input type="name" name="name" class="form-control" id="exampleInputName" aria-describedby="nameHelp">
-                    </div>                
-                    <div class="form-group">
-                        <label for="exampleInputName">Votre Email</label>
-                        <input type="email" name="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Mot de Passe</label>
-                        <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputName"> Confirmer votre Mot de Passe</label>
-                        <input input id="password_confirmation" class="form-control" type="password" name="password_confirmation" required autocomplete="new-password">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Creer</button>
-                </form>
+            @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('success') }}
+                </div>
+            @elseif(Session::has('danger'))
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('danger') }}
+                </div>
+            @endif
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Telephone</th>
+                            <th>N* Personne</th>
+                            <th>Date sejour</th>
+                            <th>Date depart</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($reservations as $reserv)
+                        <tr>
+                            <td>{{ $reserv->name }}</td>
+                            <td>{{ $reserv->email }}</td>
+                            <td>{{ $reserv->phone }}</td>
+                            <td>{{ $reserv->nombre_personnes }}</td>
+                            <td>{{ date("d/m/Y", strtotime($reserv->date_arrivee)) }}</td>
+                            <td>{{ date("d/m/Y", strtotime($reserv->date_depart)) }}</td>
+                            <td><div class="row">
+                                @if($reserv->statut == 'validee')
+                                    <form action="{{ route('reservations.refuser', $reserv->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-danger">Rejeter</button>
+                                    </form>
+                                @endif
+                            </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
 
-                <!-- JavaScript Libraries -->
+
+    </div>
+    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('lib/wow/wow.min.js')}}"></script>
@@ -141,4 +156,3 @@
 
     <!-- Template Javascript -->
     <script src="{{asset('js/main.js')}}"></script>
-         

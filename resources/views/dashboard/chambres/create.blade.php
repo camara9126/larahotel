@@ -51,27 +51,6 @@
                     </a>
                 </div>
                 <div class="col-lg-9">
-                    <!--<div class="row gx-0 bg-white d-none d-lg-flex">
-                        <div class="col-lg-7 px-5 text-start">
-                            <div class="h-100 d-inline-flex align-items-center py-2 me-4">
-                                <i class="fa fa-envelope text-primary me-2"></i>
-                                <p class="mb-0">info@example.com</p>
-                            </div>
-                            <div class="h-100 d-inline-flex align-items-center py-2">
-                                <i class="fa fa-phone-alt text-primary me-2"></i>
-                                <p class="mb-0">+012 345 6789</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 px-5 text-end">
-                            <div class="d-inline-flex align-items-center py-2">
-                                <a class="me-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-instagram"></i></a>
-                                <a class="" href=""><i class="fab fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>-->
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
                         <a href="/" class="navbar-brand d-block d-lg-none">
                             <h1 class="m-0 text-primary text-uppercase">Hotelier</h1>
@@ -81,8 +60,8 @@
                         </button>
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto py-0">
-                                <a href="dashboard" class="nav-item nav-link active">Home</a>
-                                <a href="{{route('chambres.index')}}" class="nav-item nav-link">Chambres</a>
+                                <a href="../dashboard" class="nav-item nav-link ">Home</a>
+                                <a href="{{route('chambres.index')}}" class="nav-item nav-link active">Chambres</a>
                                 <a href="{{route('reservations.index')}}" class="nav-item nav-link">Reservations</a>
                                 <a href="rooms" class="nav-item nav-link">Rooms</a>
                                 <div class="nav-item dropdown">
@@ -102,34 +81,99 @@
             </div>
         </div>
         <!-- Header End -->
-
-        <p>
-            Bienvenue {{auth()->user()->name}}
-        </p>
-        <div class="row g-2 g-sm-3 g-xl-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa fa-bed text-primary mb-4"></i>
-                        <h5>Chambres</h5>
-                        <p>{{$chambres->count()}}</p>
+         
+        <div class="container-fluid pt-5 py-5">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{route('chambres.store')}}" method="post" class="form" enctype="multipart/form-data">
+                @csrf
+                <h3 class="text-center mb-4">Ajouter une nouvelle chambre</h3>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="">Titre Chambre <span class="text-danger">*</span></label>
+                        <input type="text" placeholder="Entrer le nom de la chambre" name="titre_chambre" class="form-control">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="">Numero Chambre <span class="text-danger">*</span></label>
+                        <input type="number" placeholder="Entrer le numero de la chambre" name="numero_chambre" class="form-control">
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa fa-table text-primary mb-4"></i>
-                        <h5>Reservations</h5>
-                        <p>{{$reservations->count()}}</p>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">Image Principale <span class="text-danger">*</span></label>
+                        <input type="file" placeholder="entrer l'image principale de la chambre" name="image" class="form-control">
                     </div>
                 </div>
-            </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">Image Galerie 1<span class="text-danger">*</span></label>
+                        <input type="file" placeholder="entrer l'image galerie 1 de la chambre" name="gal_1" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Image Galerie 2<span class="text-danger">*</span></label>
+                        <input type="file" placeholder="entrer l'image galerie 2 de la chambre" name="gal_2" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="">Type de chambre <span class="text-danger">*</span></label>
+                        <select name="type_chambre" id="" class="form-control">
+                            <option value="">Selectionner le type de chambre</option>
+                            @foreach($type_chambres as $type)
+                                <option value="{{$type->nom}}">{{$type->nom}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Capacité <span class="text-danger">*</span></label>
+                        <input type="number" placeholder="Entrer la capacité de la chambre" name="capacite_chambre" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="">Prix <span class="text-danger">*</span></label>
+                        <input type="text" name="prix_chambre" class="form-control">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="">Disponibilite <span class="text-danger">*</span></label>
+                        <select name="statut" id="" class="form-control">
+                            <option value="">Selectionner la disponibilité</option>
+                            <option value="Disponible">Disponible</option>
+                            <option value="Indisponible">Indisponible</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-8">
+                        <label for="">Description <span class="text-danger">*</span></label>
+                        <textarea name="description" id="" class="form-control"></textarea>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" id="" class="btn btn-outline-success">Creer</button>
+                    </div>
+                </div>
+            </form>
         </div>
+
 
     </div>
 
-        <!-- JavaScript Libraries -->
+    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('lib/wow/wow.min.js')}}"></script>
